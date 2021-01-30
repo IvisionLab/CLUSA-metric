@@ -19,9 +19,9 @@ keywords = "Video summarization, Subjective evaluation, Evaluation metric"
 
 #### Guide.ipynb contains a guide to use the evaluation metrics:
 * CLUSA
- * with AUC-PR
- * with AUC-ROC
+  * with AUC-PR
+  * with AUC-ROC
 * Ranked correlation coefficients
- * Kendall
- * Spearman
+  * Kendall
+  * Spearman
 * F1 score
