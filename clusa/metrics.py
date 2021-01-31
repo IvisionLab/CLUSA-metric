@@ -92,7 +92,7 @@ class Spearman(Evaluation):
     
 class CLUSA(Evaluation):
     
-    theta_AUR_PR = 1
+    theta_AUC_PR = 1
     theta_AUC_ROC = 2
     
     def __init__(self):
@@ -126,12 +126,12 @@ class CLUSA(Evaluation):
             x = precision_recall_curve(a, b)
             return auc(x[1],x[0])
         
-        if self.theta == CLUSA.theta_AUR_PR:
+        if self.theta == self.theta_AUC_PR:
             e = np.concatenate(np.array(list(map(lambda ix: label_filter(np.array(list(map(lambda i: (self.train[ix,:] > i).astype(int), set(self.train[ix,:])))), minimum = 2), idx_train))))
             scores = np.array(list(map(lambda g: auc_pr_curve(g, self.test[idx_test]), e)))
             weight = np.array(list(map(lambda g: np.bincount(g)[0]/float(len(g)), e)))
             return np.array((weight, scores))
-        elif self.theta == CLUSA.theta_AUR_ROC:
+        elif self.theta == self.theta_AUC_ROC:
             e = np.concatenate(np.array(list(map(lambda ix: label_filter(np.array(list(map(lambda i: (self.train[ix,:] > i).astype(int), set(self.train[ix,:])))), minimum = 2), idx_train))))
             scores = np.array(list(map(lambda g: roc_auc_score(g, self.test[idx_test]), e)))
             if self.weights == None:             
