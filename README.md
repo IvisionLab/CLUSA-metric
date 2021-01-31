@@ -25,3 +25,4 @@ keywords = "Video summarization, Subjective evaluation, Evaluation metric"
   * Kendall
   * Spearman
 * F1 score
+* Cronbach's alpha coefficient
