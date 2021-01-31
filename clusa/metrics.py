@@ -14,40 +14,10 @@ from scipy.spatial.distance import pdist
 
 from itertools import product
 
-def binarize_dataset(dataset):
-    dataset = label_filter(dataset, minimum = 2)
-    mydata = dataset
-    new_dataset = np.concatenate(list(map(lambda j: label_filter(np.array(list(map(lambda i: (mydata[j] > i).astype(int),
-                                                                     set(mydata[j])))), minimum = 2),
-                               range(mydata.shape[0]))))
-
-    weights = np.array(list(map(lambda g: np.bincount(g)[0]/float(len(g)), new_dataset)))
-    ordering = np.argsort(weights)
-    new_dataset = new_dataset[ordering,:]
-    return new_dataset
-
-def fmeasure_consistency(dataset):
-    try:
-        dm = pdist(dataset, lambda u, v: f1_score(u, v, average='binary'))
-        return np.nanmean(dm)
-    except:
-        dm = pdist(dataset, lambda u, v: f1_score(u, v, average='micro'))
-        return np.nanmean(dm)
-
-def cronbach_standard(dataset):
-    N = dataset.shape[0]
-    A = list(product(range(N), range(N)))
-    A = list(filter(lambda a: a[1] > a[0], A))
-    corr = np.array(list(map(lambda b: pearsonr(dataset[b[0],:], dataset[b[1],:])[0], A)))
-    r = np.nanmean(corr)
-    ca=(N*r)/(1+(N-1)*r)
-    return ca
-
 def cronbach_alpha(dataset):
     N = dataset.shape[1]
     ca=(N/float(N-1))*(1-np.sum(pow(np.std(dataset, axis=0),2))/pow(np.std(dataset.sum(axis=1)),2))
     return ca
-
 
 class Evaluation:
     train = None
